@@ -1,0 +1,45 @@
+# The playbook of Nebula Graph
+
+- hosts: metad_servers
+  tags:
+    - metad
+  tasks:
+    - name: start metad by supervise
+      become: true
+      shell: cd {{ deploy_dir }}/scripts && ./nebula.service start metad
+
+#    - name: wait until the metad listening port is up
+#      wait_for:
+#        host: metad_servers
+#        port: 45500
+#        state: started
+#        delay: 15
+#        msg: "the metad listening port is not up"
+- hosts: graphd_servers
+  tags:
+    - graphd
+  tasks:
+    - name: start graphd by supervise
+      become: true
+      shell: cd {{ deploy_dir }}/scripts && ./nebula.service start graphd
+#    - name: wait until the graphd listening port is up
+#      wait_for:
+#        host: graphd_servers
+#        port: 3699
+#       state: started
+#        msg: "the graphd listening port is not up"
+
+- hosts: storaged_servers
+  tags:
+    - storaged
+  tasks:
+    - name: start storaged by supervise
+      become: true
+      shell: cd {{ deploy_dir }}/scripts && ./nebula.service start storaged
+    
+#    - name: wait until the storaged port is up
+#      wait_for:
+#        host: storaged_servers
+#        port: 44500
+#        state: started
+#        msg: "the storaged listening port is not up"

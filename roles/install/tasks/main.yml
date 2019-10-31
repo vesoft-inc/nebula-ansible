@@ -1,0 +1,15 @@
+- name: create /opt/nebula directory
+  file:
+    path: /opt/nebula
+    state: directory
+    mode: 0775
+
+- name: copy package
+  copy: 
+    src=/opt/nebula/nebula-1.0.0-beta.el7-5.x86_64.rpm 
+    dest=/opt/nebula/nebula-1.0.0-beta.el7-5.x86_64.rpm
+
+- name: install rpm package
+  yum:
+    name: /opt/nebula/nebula-1.0.0-beta.el7-5.x86_64.rpm
+    state: present

@@ -1,0 +1,53 @@
+# The Playbook of Nebula Graph
+
+#- name: deploying prometheus
+#  hosts: servers
+#  tags:
+#    - prometheus
+#  roles:
+#    - prometheus
+
+#- name: deploying grafana
+#  hosts: grafana_servers
+#  tags:
+#    - grafana
+#  roles:
+#    - grafana
+
+# deploying Nebula Graph cluster
+
+- hosts: all
+  gather_facts: yes
+  tasks:
+    - debug: var=ansible_all_ipv4_addresses
+    - debug: var=ansible_default_ipv4.address
+
+- name: copy Nebula Graph package to all machines of cluster
+  hosts: all
+  become: true
+  roles: 
+    - install
+
+- name: configure /usr/local/nebula/etc/nebula-metad.conf for metad service
+  hosts: metad_servers
+  become: true
+  roles:
+    - metad
+
+- name: configure /usr/local/nebula/etc/nebula-graphd.conf for graphd service
+  hosts: graphd_servers
+  become: true
+  roles:
+    - graphd
+
+- name: configure /usr/local/nebula/etc/nebula-storaged.conf for storaged service
+  hosts: storaged_servers
+  become: true
+  roles:
+    - storaged
+
+- name: finalizing deployment target
+  hosts: all
+  become: true
+  roles:
+    - { role: firewalld, when: enable_firewalld is defined and enable_firewalld }

@@ -1,0 +1,23 @@
+- hosts: metad_servers
+  tags:
+    - metad
+  tasks:
+    - name: stop metad by supervise
+      become: true
+      shell: cd {{ deploy_dir }}/scripts && ./nebula.service stop metad
+
+- hosts: graphd_servers
+  tags: 
+    - graphd
+  tasks:
+    - name: stop graphd by supervise
+      become: true
+      shell: cd {{ deploy_dir }}/scripts && ./nebula.service stop graphd
+
+- hosts: storaged_servers
+  tags:
+    - storaged
+  tasks:
+    - name: stop storaged by supervise
+      become: true
+      shell: cd {{ deploy_dir }}/scripts && ./nebula.service stop storaged

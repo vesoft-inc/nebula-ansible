@@ -1,0 +1,4 @@
+{
+    "discovered_interpreter_python": "/usr/bin/python", 
+    "pkg_mgr": "yum"
+}

@@ -1,0 +1,47 @@
+---
+
+- name: Stop if ansible version is too low, make sure that the Ansible version is Ansible 2.4.2 or later, otherwise a compatibility issue occurs.
+  assert:
+    that:
+      - ansible_version.full|version_compare('2.4.2', '>=')
+      # - ansible_version.full is version('2.5.0', '>=')
+
+# preflight checks
+- name: detect outbound network
+  shell: >
+    warn=no
+    curl -s --connect-timeout 10 www.baidu.com 2>/dev/null >/dev/null; echo $?
+  changed_when: false
+  register: outbound_network_st
+
+- name: set outbound network fact
+  set_fact: has_outbound_network={{ outbound_network_st.stdout.strip() == '0' }}
+
+- fail:
+    msg: "The Control Machine must have access to the Internet in order to download Nebula Graph package."
+  when: not has_outbound_network
+
+- name: create a directory of downloads
+  become: yes
+  file:
+    path: /opt/nebula
+    state: directory
+    mode: 0755
+
+- name: download Nebula Graph package from nebula repo
+  become: yes
+  get_url:
+    url: https://github.com/vesoft-inc/nebula/releases/download/v1.0.0-beta/nebula-1.0.0-beta.el7-5.x86_64.rpm
+    dest: /opt/nebula
+    mode: 0755
+    force: yes
+  register: get_url_result
+  until: "'OK' in get_url_result.msg or 'file already exists' in get_url_result.msg"
+  retries: 4
+  when: has_outbound_network
+
+#- name: unarchive Nebula Graph binary
+#  unarchive:
+#    src: /opt/nebula/centos7-nightly.zip
+#    dest: /opt/nebula
+#    mode: 0755

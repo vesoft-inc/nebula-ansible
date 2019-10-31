@@ -1,0 +1,16 @@
+---
+
+- name: prepare environment
+  hosts: localhost
+  gather_facts: true
+  connection: local
+  tasks:
+    - debug: var=ansible_all_ipv4_addresses
+    - debug: var=ansible_default_ipv4.address
+
+- name: do local preparation
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - local
