@@ -16,37 +16,31 @@
 
 # deploying Nebula Graph cluster
 
-- hosts: all
-  gather_facts: yes
-  tasks:
-    - debug: var=ansible_all_ipv4_addresses
-    - debug: var=ansible_default_ipv4.address
-
 - name: copy Nebula Graph package to all machines of cluster
   hosts: all
   become: true
   roles: 
     - install
 
-- name: configure /usr/local/nebula/etc/nebula-metad.conf for metad service
+- name: configuration for metad service
   hosts: metad_servers
   become: true
   roles:
     - metad
 
-- name: configure /usr/local/nebula/etc/nebula-graphd.conf for graphd service
+- name: configuration for graphd service
   hosts: graphd_servers
   become: true
   roles:
     - graphd
 
-- name: configure /usr/local/nebula/etc/nebula-storaged.conf for storaged service
+- name: configuration for storaged service
   hosts: storaged_servers
   become: true
   roles:
     - storaged
 
-- name: finalizing deployment target
+- name: configuration for firewall
   hosts: all
   become: true
   roles:

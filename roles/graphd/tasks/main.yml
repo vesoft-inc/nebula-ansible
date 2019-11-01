@@ -1,4 +1,4 @@
-# configure /usr/local/nebula/etc/nebula-metad.conf for metad services
+# configure /usr/local/nebula/etc/nebula-graphd.conf for graphd services
 
 - name: create list of metad servers added to cluster
   set_fact: meta_server_addrs={% set IP_ARR=[] %}{% for host in groups['metad_servers'] %}{% if IP_ARR.insert(loop.index,hostvars[host].ansible_default_ipv4.address) %}{% endif %}{% endfor %}{{IP_ARR|join(':45500,')}}:45500
@@ -6,7 +6,7 @@
 
 - name: set local_ip argument
   lineinfile:
-    path: /usr/local/nebula/etc/nebula-metad.conf
+    path: /usr/local/nebula/etc/nebula-graphd.conf
     state: present
     regexp: '^--local_ip='
     insertafter: '^--meta_server_addrs='
@@ -14,7 +14,7 @@
 
 - name: set meta_server_addrs argument
   lineinfile:
-    path: /usr/local/nebula/etc/nebula-metad.conf
+    path: /usr/local/nebula/etc/nebula-graphd.conf
     state: present
     regexp: '^--meta_server_addrs='
     insertbefore: '^# Local ip'
