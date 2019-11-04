@@ -24,21 +24,57 @@
 - name: create a directory of downloads
   become: yes
   file:
-    path: /opt/nebula_packages
+    path: "{{ downloads_dir }}"
     state: directory
     mode: 0755
 
-- name: download Nebula Graph package from nebula repo
+# download nebula graph packages from nebula github repo
+- name: download nebula graph package of CentOS-6.5
   become: yes
   get_url:
-    url: https://github.com/vesoft-inc/nebula/releases/download/v1.0.0-beta/nebula-1.0.0-beta.el7-5.x86_64.rpm
-    dest: /opt/nebula
+    url: https://github.com/vesoft-inc/nebula/releases/download/v1.0.0-beta/nebula-1.0.0-beta.el6-5.x86_64.rpm
+    dest: "{{ downloads_dir }}"
     mode: 0755
     force: yes
   register: get_url_result
   until: "'OK' in get_url_result.msg or 'file already exists' in get_url_result.msg"
   retries: 4
   when: has_outbound_network
+
+- name: download nebula graph package of CentOS-7.5
+  become: yes
+  get_url:
+    url: https://github.com/vesoft-inc/nebula/releases/download/v1.0.0-beta/nebula-1.0.0-beta.el7-5.x86_64.rpm
+    dest: "{{ downloads_dir }}"
+    mode: 0755
+    force: yes
+  register: get_url_result
+  until: "'OK' in get_url_result.msg or 'file already exists' in get_url_result.msg"
+  retries: 4
+  when: has_outbound_network
+
+- name: download nebula graph package of Ubuntu-16.04
+  become: yes
+  get_url:
+    url: https://github.com/vesoft-inc/nebula/releases/download/v1.0.0-beta/nebula-1.0.0-beta.ubuntu1604.amd64.deb
+    dest: "{{ downloads_dir }}"
+    mode: 0755
+    force: yes
+  register: get_url_result
+  until: "'OK' in get_url_result.msg or 'file already exists' in get_url_result.msg"
+  retries: 4
+
+- name: download nebula graph package of Ubuntu-18.04
+  become: yes
+  get_url:
+    url: https://github.com/vesoft-inc/nebula/releases/download/v1.0.0-beta/nebula-1.0.0-beta.ubuntu1804.amd64.deb
+    dest: "{{ downloads_dir }}"
+    mode: 0755
+    force: yes
+  register: get_url_result
+  until: "'OK' in get_url_result.msg or 'file already exists' in get_url_result.msg"
+  retries: 4
+
 
 #- name: unarchive Nebula Graph binary
 #  unarchive:

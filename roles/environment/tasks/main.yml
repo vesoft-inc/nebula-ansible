@@ -1,0 +1,9 @@
+- name: modify soft limit
+  lineinfile:
+    path: /etc/security/limits.conf
+    line: 'nebula soft nofile 102400'
+  
+- name: modify hard limit
+  lineinfile:
+    path: /etc/security/limits.conf
+    line: 'nebula hard nofile 102400'

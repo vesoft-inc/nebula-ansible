@@ -1,20 +1,12 @@
 # The Playbook of Nebula Graph
 
-#- name: deploying prometheus
-#  hosts: servers
-#  tags:
-#    - prometheus
-#  roles:
-#    - prometheus
-
-#- name: deploying grafana
-#  hosts: grafana_servers
-#  tags:
-#    - grafana
-#  roles:
-#    - grafana
-
 # deploying Nebula Graph cluster
+
+- name: set environment
+  hosts: all
+  become: true
+  roles:
+    - environment
 
 - name: copy Nebula Graph package to all machines of cluster
   hosts: all
