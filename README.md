@@ -26,7 +26,9 @@ Set password of nebula
 $ passwd nebula
 ```
 
-### Configure nebula user sudo password free Append nebula ALL=(ALL) NOPASSWD: ALL to visudo
+### Configure nebula user sudo password free
+
+Execute visudo and append 'nebula ALL=(ALL) NOPASSWD: ALL' to the end
 
 ```shell
 $ visudo
@@ -55,7 +57,7 @@ $ git clone https://github.com/jievince/nebula-ansible.git
 ```
 
 ### Configure the deployment machine on the central control machine ssh mutual trust and sudo rules
-Login as nebula user on central control, add the ip of the machine to be deployed to the [servers] group of hosts file.
+Login as nebula user on central control machine, add the ip of the machines to be deployed to the [servers] group of hosts file.
 
 ```shell
 $ cd /home/nebula/nebula-ansible
@@ -72,13 +74,29 @@ $ vi hosts
 username=nebula
 ```
 
-Execute the following command and enter the root password of the deployment target machine as prompted. This step will create a nebula user on the deployment target machine and configure the sudo rule to configure ssh mutual trust between the central controller and the target machine.
+Execute the following command and enter the root password of the deployment target machine as prompted. 
+
+This step will create a nebula user on the deployment target machine and configure the sudo rule to configure ssh mutual trust between the central control machine and the target machine.
 
 ```shell
 $ ansible-playbook -i hosts create_users.yml -u root -k
 ```
 
-### Assign machine resource Edit the inventory.ini file
+Execute the following command: If all servers return nebula, the ssh mutual trust configuration is successful
+
+```shell
+$ ansible -i inventory.ini all -m shell -a 'whoami'
+```
+
+Execute the following command if all servers return root to indicate nebula user sudo password-free configuration is successful
+
+```shell
+$ ansible -i inventory.ini all -m shell -a 'whoami' -b
+```
+
+### Assign machine resource
+
+Edit the inventory.ini file
 
 ```shell
 $ vi inventory.ini
@@ -102,18 +120,15 @@ $ vi inventory.ini
 ```
 
 ### Deploy nebula to machines of cluster
-step1: Confirm that ansible_user = nebula in the nebula-ansible/inventory.ini file. In this example, the nebula user is used as the service running user. The configuration is as follows: ansible_user is not set to root, and nebula-ansible restricts the service to run as a normal user.
+step1: Confirm that **ansible_user = nebula** in the nebula-ansible/inventory.ini file. 
+
+In this example, the nebula user is used as the service running user. 
+
+The configuration is as follows: ansible_user is not set to root, and nebula-ansible restricts the service to run as a normal user.
+
+```shell
 ansible_user = nebula
-Execute the following command: If all servers return nebula, the ssh mutual trust configuration is successful
 
-```shell
-$ ansible -i inventory.ini all -m shell -a 'whoami'
-```
-
-Execute the following command if all servers return root to indicate nebula user sudo password-free configuration is successful
-
-```shell
-$ ansible -i inventory.ini all -m shell -a 'whoami' -b
 ```
 
 step2: Execute local_prepare.yml playbook, download nebula package to the central control machine
