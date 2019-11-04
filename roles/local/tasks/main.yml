@@ -24,7 +24,7 @@
 - name: create a directory of downloads
   become: yes
   file:
-    path: /opt/nebula
+    path: /opt/nebula_packages
     state: directory
     mode: 0755
 
