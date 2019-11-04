@@ -6,7 +6,7 @@ nebula-ansible is a nebula cluster deployment tool based on ansible playbook, wh
 
 ## Usage
 
-### Configure ansible environment in the central contral machine
+### Configure ansible environment in the central control machine
 
 ```shell
 $ rpm -Uvh https://mirrors.aliyun.com/epel/epel-release-latest-7.noarch.rpm
