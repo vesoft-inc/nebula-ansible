@@ -1,6 +1,5 @@
-# The Playbook of Nebula Graph
-
-# deploying Nebula Graph cluster
+---
+# deploy Nebula Graph cluster
 
 - name: set environment
   hosts: all
