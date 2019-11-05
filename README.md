@@ -2,11 +2,11 @@
 
 ## Introduction
 
-nebula-ansible is a nebula cluster deployment tool based on ansible playbook, which helps you deploy nebula services on cluster quickly.
+nebula-ansible is a nebula cluster deployment tool based on ansible playbook.
 
 ## Usage
 
-### Install ansible in the central control machine.
+### Install ansible in the central control machine
 ```shell
 $ pip install --user ansible
 ```
