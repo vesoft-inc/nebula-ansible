@@ -1,6 +1,5 @@
 ---
-
-# The playbook of Nebula Graph
+# do local preparation
 
 - name: do local preparation on central control machine
   hosts: localhost
