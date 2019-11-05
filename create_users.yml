@@ -13,7 +13,7 @@
 
     - name: update sudoers file
       lineinfile:
-        dest: /etc/sudoers
+        path: /etc/sudoers
         insertafter: EOF
         line: '{{ username }} ALL=(ALL) NOPASSWD: ALL'
         regexp: '^{{ username }} .*'
