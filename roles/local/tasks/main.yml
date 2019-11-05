@@ -24,7 +24,7 @@
 - name: create a directory of downloads
   become: yes
   file:
-    path: "{{ downloads_dir }}"
+    path: "{{ packages_dir }}"
     state: directory
     mode: 0755
 
@@ -33,7 +33,7 @@
   become: yes
   get_url:
     url: https://github.com/vesoft-inc/nebula/releases/download/v1.0.0-beta/nebula-1.0.0-beta.el6-5.x86_64.rpm
-    dest: "{{ downloads_dir }}"
+    dest: "{{ packages_dir }}"
     mode: 0755
     force: yes
   register: get_url_result
@@ -45,7 +45,7 @@
   become: yes
   get_url:
     url: https://github.com/vesoft-inc/nebula/releases/download/v1.0.0-beta/nebula-1.0.0-beta.el7-5.x86_64.rpm
-    dest: "{{ downloads_dir }}"
+    dest: "{{ packages_dir }}"
     mode: 0755
     force: yes
   register: get_url_result
@@ -57,7 +57,7 @@
   become: yes
   get_url:
     url: https://github.com/vesoft-inc/nebula/releases/download/v1.0.0-beta/nebula-1.0.0-beta.ubuntu1604.amd64.deb
-    dest: "{{ downloads_dir }}"
+    dest: "{{ packages_dir }}"
     mode: 0755
     force: yes
   register: get_url_result
@@ -68,7 +68,7 @@
   become: yes
   get_url:
     url: https://github.com/vesoft-inc/nebula/releases/download/v1.0.0-beta/nebula-1.0.0-beta.ubuntu1804.amd64.deb
-    dest: "{{ downloads_dir }}"
+    dest: "{{ packages_dir }}"
     mode: 0755
     force: yes
   register: get_url_result

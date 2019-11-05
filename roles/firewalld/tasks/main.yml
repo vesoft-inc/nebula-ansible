@@ -12,7 +12,6 @@
   changed_when: false
 
 - name: enable firewalld ports
-#  shell: firewall-cmd --zone=public --add-port={{ item }} --permanent
   firewalld:
     port: '{{ item }}'
     permanent: true
@@ -22,6 +21,5 @@
   register: firewalld
 
 - name: reload firewalld
-  # shell: firewall-cmd --reload
   service: name=firewalld state=reloaded
   when: firewalld.changed is defined and firewalld.changed

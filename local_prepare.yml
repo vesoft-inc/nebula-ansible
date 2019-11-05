@@ -1,6 +1,8 @@
 ---
 
-- name: do local preparation
+# The playbook of Nebula Graph
+
+- name: do local preparation on central control machine
   hosts: localhost
   connection: local
   gather_facts: false

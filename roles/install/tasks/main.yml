@@ -1,57 +1,57 @@
-- name: create directory of  nebula package
+- name: create directory to store nebula package
   file:
-    path: "{{ downloads_dir }}"
+    path: "{{ packages_dir }}"
     state: directory
     mode: 0775
 
 # send different packages based on the system version of each machine on the cluster
 
-- name: for CentOS-6.5
+- name: copy nebula CentOS-6.5 package from central control machine to CentOS-6.5 machines on cluster
   copy:
-    src="{{ downloads_dir }}/nebula-1.0.0-beta.el6-5.x86_64.rpm"
-    dest="{{ downloads_dir }}/nebula-1.0.0-beta.el6-5.x86_64.rpm"
+    src="{{ packages_dir }}/nebula-1.0.0-beta.el6-5.x86_64.rpm"
+    dest="{{ packages_dir }}/nebula-1.0.0-beta.el6-5.x86_64.rpm"
   when: ansible_distribution == 'CentOS' and ansible_distribution_version == '6.5'
 
-- name: for CentOS-7.5
+- name: copy nebula CentOS-7.5 package from central control machine to CentOS-7.5 machines on cluster
   copy:
-    src="{{ downloads_dir }}/nebula-1.0.0-beta.el7-5.x86_64.rpm"
-    dest="{{ downloads_dir }}/nebula-1.0.0-beta.el7-5.x86_64.rpm"
+    src="{{ packages_dir }}/nebula-1.0.0-beta.el7-5.x86_64.rpm"
+    dest="{{ packages_dir }}/nebula-1.0.0-beta.el7-5.x86_64.rpm"
   when: ansible_distribution == 'CentOS' and ansible_distribution_version == '7.5'
 
-- name: for Ubuntu-16.04
+- name: copy nebula Ubuntu-16.04 package from central control machine to Ubuntu-16.04 machines on cluster
   copy:
-    src="{{ downloads_dir }}/nebula-1.0.0-beta.ubuntu1604.amd64.deb"
-    dest="{{ downloads_dir }}/nebula-1.0.0-beta.ubuntu1604.amd64.deb"
+    src="{{ packages_dir }}/nebula-1.0.0-beta.ubuntu1604.amd64.deb"
+    dest="{{ packages_dir }}/nebula-1.0.0-beta.ubuntu1604.amd64.deb"
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '16.04'
 
-- name: for Ubuntu-18.04
+- name: copy nebula Ubuntu-18.04 package from central control machine to Ubuntu-18.04 machines on cluster
   copy:
-    src="{{ downloads_dir }}/nebula-1.0.0-beta.ubuntu1804.amd64.deb"
-    dest="{{ downloads_dir }}/nebula-1.0.0-beta.ubuntu1804.amd64.deb"
+    src="{{ packages_dir }}/nebula-1.0.0-beta.ubuntu1804.amd64.deb"
+    dest="{{ packages_dir }}/nebula-1.0.0-beta.ubuntu1804.amd64.deb"
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04'
 
 # install nebula package on each machine on the cluster
 
 - name: install nebula package on CentOS-6.5 machines on the cluster
   yum:
-    name: "{{ downloads_dir }}/nebula-1.0.0-beta.el6-5.x86_64.rpm"
+    name: "{{ packages_dir }}/nebula-1.0.0-beta.el6-5.x86_64.rpm"
     state: present
   when: ansible_distribution == 'CentOS' and ansible_distribution_version == '6.5'  
 
 - name: install nebula package on CentOS-7.5 machines on the cluster
   yum:
-    name: "{{ downloads_dir }}/nebula-1.0.0-beta.el7-5.x86_64.rpm"
+    name: "{{ packages_dir }}/nebula-1.0.0-beta.el7-5.x86_64.rpm"
     state: present
   when: ansible_distribution == 'CentOS' and ansible_distribution_version == '7.5'
 
 - name: install nebula package on Ubuntu-16.04 machines on the cluster
   apt:
-    name: "{{ downloads_dir }}/nebula-1.0.0-beta.ubuntu1604.amd64.deb"
+    name: "{{ packages_dir }}/nebula-1.0.0-beta.ubuntu1604.amd64.deb"
     state: present
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '16.04'
 
 - name: install nebula package on Ubuntu-18.04 machines on the cluster
   apt:
-    name: "{{ downloads_dir }}/nebula-1.0.0-beta.ubuntu1804.amd64.deb"
+    name: "{{ packages_dir }}/nebula-1.0.0-beta.ubuntu1804.amd64.deb"
     state: present
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version == '18.04'
