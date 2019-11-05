@@ -2,18 +2,19 @@
 
 ## Introduction
 
-nebula-ansible is a nebula cluster deployment tool based on ansible playbook, which enables you to deploy nebula services to all of the machines of the cluster.
+nebula-ansible is a nebula cluster deployment tool based on ansible playbook, which helps you deploy nebula services on cluster quickly.
 
 ## Usage
 
-### Install ansible in the central control machine. Other installation methods can be seen [here](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
-
+### Install ansible in the central control machine.
 ```shell
 $ pip install --user ansible
 ```
 
+Other installation methods can be seen [here](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
+
 ### Create nebula user account on central control machine and generate ssh key
-Login as root user on central control machine， Create nebula user account
+Login as root user on central control machine， and create nebula user account
 
 ```shell
 $ useradd -m -d /home/nebula nebula
@@ -27,7 +28,7 @@ $ passwd nebula
 
 ### Make nebula user free of sudo password
 
-Execute visudo and append 'nebula ALL=(ALL) NOPASSWD: ALL' to the end
+Execute visudo and append `nebula ALL=(ALL) NOPASSWD: ALL` to the end
 
 ```shell
 $ visudo
