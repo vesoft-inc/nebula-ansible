@@ -82,9 +82,6 @@ $ vi hosts
 192.168.8.18
 192.168.8.122
 192.168.8.188
-
-[all:vars]
-username=nebula
 ```
 
 Execute the following command and enter the root password of the deployment target machine as prompted. 
@@ -109,12 +106,13 @@ $ ansible -i inventory.ini all -m shell -a 'whoami' -b
 
 ### Allocate machine resources
 
-Edit the inventory.ini file
+Edit the inventory.ini file, 
 
 ```shell
 $ vi inventory.ini
 ```
 
+Put the ip to the corresponding `[metad_servers]`, `[graphd_servers]` and `[storaged_servers`] groups
 ```shell
 [metad_servers]
 192.168.8.122
@@ -130,6 +128,18 @@ $ vi inventory.ini
 192.168.8.18
 192.168.8.122
 192.168.8.188
+```
+
+Set the nebula version you want to deploy to your cluster and the system info of your cluster,
+
+```
+nebula_version = 1.0.0-rc1
+
+os_version = el7-5
+
+arc = x86_64
+
+pkg = rpm
 ```
 
 ### Deploy nebula to machines of cluster
