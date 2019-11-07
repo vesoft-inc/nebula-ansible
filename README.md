@@ -7,9 +7,21 @@ nebula-ansible is a nebula cluster deployment tool based on ansible playbook.
 ## Usage
 
 ### Install ansible in the central control machine
+
+For CentOS, 
 ```shell
-$ pip install --user ansible
+$ yum install epel-release -y
+$ yum install ansible -y
 ```
+
+For Ubuntu,
+```shell
+$ sudo apt-get update
+$ sudo apt-get install software-properties-common
+$ sudo apt-add-repository --yes ppa:ansible/ansible
+$ sudo apt install ansible
+```
+Execute `$ ansible --version`, make sure your ansible version is > 2.4.2.
 
 Other installation methods can be seen [here](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
@@ -44,7 +56,7 @@ Switch from root user to nebula user
 $ su - nebula
 ```
 
-Create ssh key of nebula user
+Create ssh key of nebula user 
 
 ```shell
 $ ssh-keygen -t rsa
@@ -56,8 +68,9 @@ Download nebula-ansible to central control machine
 $ git clone https://github.com/jievince/nebula-ansible.git
 ```
 
-### Configure the deployment machine on the central control machine ssh mutual trust and sudo rules
-Login as nebula user on central control machine, add the ip of the machines to be deployed to the [servers] group of hosts file.
+### Make all the machines in the cluster trust with the Control Machine
+
+Login as nebula  on Control Machine, add the ip of the machines to be deployed to the [servers] group of hosts file.
 
 ```shell
 $ cd /home/nebula/nebula-ansible
