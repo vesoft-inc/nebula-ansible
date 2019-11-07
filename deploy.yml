@@ -7,7 +7,7 @@
   roles:
     - environment
 
-- name: copy Nebula Graph package to all machines of cluster
+- name: copy nebula package to all machines in the cluster and install nebula on them
   hosts: all
   become: true
   roles: 

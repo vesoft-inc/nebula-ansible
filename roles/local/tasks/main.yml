@@ -1,12 +1,11 @@
 ---
-# local preparation on central control machine
+# local preparation on Control Machine
 
-- name: Make sure that the Ansible version is Ansible 2.4.2 or later, otherwise a compatibility issue occurs
+- name: make sure that the Ansible version is Ansible 2.4.2 later, otherwise a compatibility issue occurs
   assert:
     that:
-      - ansible_version.full|version_compare('2.4.2', '>=')
+      - ansible_version.full|version_compare('2.4.2', '>')
 
-# preflight checks
 - name: detect outbound network
   shell: >
     warn=no
@@ -17,67 +16,38 @@
 - name: set outbound network fact
   set_fact: has_outbound_network={{ outbound_network_st.stdout.strip() == '0' }}
 
-- fail:
-    msg: "The Control Machine must have access to the Internet in order to download Nebula Graph package."
-  when: not has_outbound_network
+- include_vars: file={{ playbook_dir }}/conf/packages.yml
 
-- name: create a directory of downloads
+- name: create a directory of downloads if it does not exist
   become: yes
   file:
     path: "{{ packages_dir }}"
     state: directory
     mode: 0755
 
-# download nebula graph packages from nebula github repo
-- name: download nebula graph package of CentOS-6.5
+- name: check if the nebula package has existed when there is not outbound network
+  stat: 
+    path: "{{ packages_dir }}/{{ item.filename }}"
+  with_items: "{{ nebula_packages }}"
+  register: stat_result
+  when: not has_outbound_network
+
+- fail:
+    msg: "The Control Machine don't have access to the Internet to download nebula package, and the package is also not found in {{ packageds_dir }} on the Control Machine."
+  when: 
+    - not has_outbound_network
+    - not stat_result.stat.exists
+
+# do actual downloading
+
+- name: download nebula graph package
   become: yes
   get_url:
-    url: https://github.com/vesoft-inc/nebula/releases/download/v1.0.0-rc1/nebula-1.0.0-rc1.el6-5.x86_64.rpm
+    url: "{{ item.url }}"
     dest: "{{ packages_dir }}"
     mode: 0755
-    force: yes
   register: get_url_result
   until: "'OK' in get_url_result.msg or 'file already exists' in get_url_result.msg"
   retries: 4
+  with_items: "{{ nebula_packages }}"
   when: has_outbound_network
-
-- name: download nebula graph package of CentOS-7.5
-  become: yes
-  get_url:
-    url: https://github.com/vesoft-inc/nebula/releases/download/v1.0.0-rc1/nebula-1.0.0-rc1.el7-5.x86_64.rpm
-    dest: "{{ packages_dir }}"
-    mode: 0755
-    force: yes
-  register: get_url_result
-  until: "'OK' in get_url_result.msg or 'file already exists' in get_url_result.msg"
-  retries: 4
-  when: has_outbound_network
-
-- name: download nebula graph package of Ubuntu-16.04
-  become: yes
-  get_url:
-    url: https://github.com/vesoft-inc/nebula/releases/download/v1.0.0-rc1/nebula-1.0.0-rc1.ubuntu1604.amd64.deb
-    dest: "{{ packages_dir }}"
-    mode: 0755
-    force: yes
-  register: get_url_result
-  until: "'OK' in get_url_result.msg or 'file already exists' in get_url_result.msg"
-  retries: 4
-
-- name: download nebula graph package of Ubuntu-18.04
-  become: yes
-  get_url:
-    url: https://github.com/vesoft-inc/nebula/releases/download/v1.0.0-rc1/nebula-1.0.0-rc1.ubuntu1804.amd64.deb
-    dest: "{{ packages_dir }}"
-    mode: 0755
-    force: yes
-  register: get_url_result
-  until: "'OK' in get_url_result.msg or 'file already exists' in get_url_result.msg"
-  retries: 4
-
-
-#- name: unarchive Nebula Graph binary
-#  unarchive:
-#    src: /opt/nebula/centos7-nightly.zip
-#    dest: /opt/nebula
-#    mode: 0755
