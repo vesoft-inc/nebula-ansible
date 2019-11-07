@@ -6,7 +6,7 @@ nebula-ansible is a nebula cluster deployment tool based on ansible playbook.
 
 ## Usage
 
-### Install ansible in the central control machine
+### Install ansible on Control Machine
 
 For CentOS, 
 ```shell
@@ -25,7 +25,7 @@ Execute `$ ansible --version`, make sure your ansible version is > 2.4.2.
 
 Other installation methods can be seen [here](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
-### Create nebula user account on central control machine and generate ssh key
+### Create nebula user account on Control Machine and generate ssh key
 Login as root user on central control machine， and create nebula user account
 
 ```shell
@@ -89,19 +89,19 @@ username=nebula
 
 Execute the following command and enter the root password of the deployment target machine as prompted. 
 
-This step will create a nebula user on the deployment target machine and configure the sudo rule to configure ssh mutual trust between the central control machine and the target machine.
+This step will create a nebula user on the deployment target machine and configure the sudo rule to configure ssh mutual trust between the Control Machine and the target machines.
 
 ```shell
 $ ansible-playbook -i hosts create_users.yml -u root -k
 ```
 
-Execute the following command and if all servers return nebula, the ssh mutual trust configuration is successful
+Execute the following command and if all servers return `nebula`, the ssh mutual trust configuration is successful
 
 ```shell
 $ ansible -i inventory.ini all -m shell -a 'whoami'
 ```
 
-Execute the following command and if all servers return root it indicates nebula user sudo password-free configuration is successful
+Execute the following command and if all servers return `root` it indicates nebula user sudo password-free configuration is successful
 
 ```shell
 $ ansible -i inventory.ini all -m shell -a 'whoami' -b
@@ -134,7 +134,7 @@ $ vi inventory.ini
 
 ### Deploy nebula to machines of cluster
 
-Execute local_prepare.yml playbook, it will download nebula package to the central control machine
+Execute local_prepare.yml playbook, it will download nebula package to the Control Machine
 
 ```shell
 $ ansible-playbook local_prepare.yml
@@ -167,6 +167,6 @@ Stop nebula services on machines of cluster
 ```shell
 ansible-playbook stop.yml
 ```
-This command will stop all of the services on the cluster.
+This command will stop all of the services inn the cluster.
 
 You can also add `-t metad/graphd/storaged` to stop only specific service.
