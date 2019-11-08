@@ -7,16 +7,8 @@
   tasks:
     - name: start metad by supervise
       become: true
-      ignore_errors: yes
+      ignore_errors: no
       shell: cd {{ deploy_dir }}/scripts && ./nebula.service start metad
-
-#    - name: wait until the metad listening port is up
-#      wait_for:
-#        host: metad_servers
-#        port: 45500
-#        state: started
-#        delay: 15
-#        msg: "the metad listening port is not up"
 
 - hosts: graphd_servers
   tags:
@@ -24,7 +16,7 @@
   tasks:
     - name: start graphd by supervise
       become: true
-      ignore_errors: yes
+      ignore_errors: no
       shell: cd {{ deploy_dir }}/scripts && ./nebula.service start graphd
 
 - hosts: storaged_servers
@@ -33,5 +25,5 @@
   tasks:
     - name: start storaged by supervise
       become: true
-      ignore_errors: yes
+      ignore_errors: no
       shell: cd {{ deploy_dir }}/scripts && ./nebula.service start storaged
