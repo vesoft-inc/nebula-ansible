@@ -64,8 +64,7 @@ $ ssh-keygen -t rsa
 
 Press the Enter key three times until the ssh key is created successfully.
 
-```shell
-[root@localhost ~]# ssh-keygen -t rsa
+```text
 Generating public/private rsa key pair.
 Enter file in which to save the key (/root/.ssh/id_rsa):
 Enter passphrase (empty for no passphrase):
