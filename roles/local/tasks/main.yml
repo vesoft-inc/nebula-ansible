@@ -16,8 +16,6 @@
 - name: set outbound network fact
   set_fact: has_outbound_network={{ outbound_network_st.stdout.strip() == '0' }}
 
-- include_vars: file={{ playbook_dir }}/conf/packages.yml
-
 - name: create a directory of downloads if it does not exist
   become: yes
   file:
@@ -25,12 +23,10 @@
     state: directory
     mode: 0755
 
-- name: check if the nebula package has existed when there is not outbound network
+- name: check if the nebula package has existed
   stat: 
-    path: "{{ packages_dir }}/{{ item.filename }}"
-  with_items: "{{ nebula_packages }}"
+    path: "{{ packages_dir }}/{{ nebula_packages.name }}"
   register: stat_result
-  when: not has_outbound_network
 
 - fail:
     msg: "The Control Machine don't have access to the Internet to download nebula package, and the package is also not found in {{ packageds_dir }} on the Control Machine."
@@ -38,16 +34,15 @@
     - not has_outbound_network
     - not stat_result.stat.exists
 
-# do actual downloading
-
 - name: download nebula graph package
   become: yes
   get_url:
-    url: "{{ item.url }}"
+    url: "{{ nebula_packages.name }}"
     dest: "{{ packages_dir }}"
     mode: 0755
   register: get_url_result
   until: "'OK' in get_url_result.msg or 'file already exists' in get_url_result.msg"
   retries: 4
-  with_items: "{{ nebula_packages }}"
-  when: has_outbound_network
+  when: 
+    - has_outbound_network
+    - force_download or not stat_result.stat.exists

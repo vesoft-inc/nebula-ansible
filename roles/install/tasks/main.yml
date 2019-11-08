@@ -4,16 +4,14 @@
     state: directory
     mode: 0775
 
-- include_vars: file={{ playbook_dir }}/conf/packages.yml
+- include_vars: file={{ playbook_dir }}/roles/local/vars/main.yml
 
 - name: copy nebula package from Control Machine to all machines in the cluster
   copy:
-    src="{{ packages_dir }}/{{ item.filename }}"
-    dest="{{ packages_dir }}/{{ item.filename }}"
-  with_items: "{{  nebula_packages }}"
+    src="{{ packages_dir }}/{{ nebula_packages.name }}"
+    dest="{{ packages_dir }}/{{ nebula_packages.name }}"
 
 - name: install nebula package on all machines in the cluster
   package:
-    name: "{{ packages_dir }}/{{ item.filename }}"
+    name: "{{ packages_dir }}/{{ nebula_packages.name }}"
     state: present
-  with_items: "{{ nebula_packages }}"

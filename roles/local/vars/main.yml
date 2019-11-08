@@ -1,0 +1,4 @@
+nebula_packages:
+    name: nebula-{{ nebula_version }}.{{ os_version }}.{{ arc }}.{{ pkg }}
+    version: "{{ nebula_version }}"
+    url: https://github.com/vesoft-inc/nebula/releases/download/v{{ nebula_version }}/nebula-{{ nebula_version }}.{{ os_version }}.{{ arc }}.{{ pkg }}
