@@ -62,6 +62,32 @@ Create ssh key of nebula user
 $ ssh-keygen -t rsa
 ```
 
+Press the Enter key three times until the ssh key is created successfully.
+
+```shell
+[root@localhost ~]# ssh-keygen -t rsa
+Generating public/private rsa key pair.
+Enter file in which to save the key (/root/.ssh/id_rsa):
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /root/.ssh/id_rsa.
+Your public key has been saved in /root/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:RWnqJ7y9+kX+2KoUYCZrUAwLBLc7UMxOP1bF6P6sY6o root@localhost
+The key's randomart image is:
++---[RSA 2048]----+
+|.== .o.+. ..     |
+| o+o o+ ..o      |
+|.o..oo. +o.      |
+| ...+..=.o       |
+|  o. oooS . .    |
+|   . .. + .+     |
+|       o =. o    |
+|      o +... +   |
+|  E..o.o.o+oo.o  |
++----[SHA256]-----+
+```
+
 Download nebula-ansible to central control machine
 
 ```shell
