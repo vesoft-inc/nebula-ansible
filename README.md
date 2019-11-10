@@ -95,7 +95,7 @@ $ git clone https://github.com/jievince/nebula-ansible.git
 
 ### Make all the machines in the cluster trust with the Control Machine
 
-Login as nebula  on Control Machine, add the ip of the machines to be deployed to the [servers] group of hosts file.
+Login as nebula  on Control Machine, add the ip of the machines to be deployed to the `[servers]` group of hosts file.
 
 ```shell
 $ cd /home/nebula/nebula-ansible
