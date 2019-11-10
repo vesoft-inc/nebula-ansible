@@ -26,16 +26,16 @@ Execute `$ ansible --version`, make sure your ansible version is > 2.4.2.
 Other installation methods can be seen [here](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
 ### Create nebula user account on Control Machine and generate ssh key
-Login as root user on central control machine， and create nebula user account
+Login as root user on central control machine，and create nebula user account
 
 ```shell
-$ useradd -m -d /home/nebula nebula
+root@localhost:~$ useradd -m -d /home/nebula nebula
 ```
 
 Set password of nebula
 
 ```shell
-$ passwd nebula
+root@localhost:~$ passwd nebula
 ```
 
 ### Make nebula user free of sudo password
@@ -43,7 +43,7 @@ $ passwd nebula
 Execute visudo and append `nebula ALL=(ALL) NOPASSWD: ALL` to the end
 
 ```shell
-$ visudo
+root@localhost:~$ visudo
 ```
 
 ```text
@@ -53,13 +53,13 @@ nebula ALL=(ALL) NOPASSWD: ALL
 Switch from root user to nebula user
 
 ```shell
-$ su - nebula
+root@localhost:~$ su - nebula
 ```
 
 Create ssh key of nebula user 
 
 ```shell
-$ ssh-keygen -t rsa
+nebula@localhost:~$ ssh-keygen -t rsa
 ```
 
 Press the Enter key three times until the ssh key is created successfully.
@@ -90,7 +90,7 @@ The key's randomart image is:
 Download nebula-ansible to central control machine
 
 ```shell
-$ git clone https://github.com/jievince/nebula-ansible.git
+nebula@localhost:~$ git clone https://github.com/jievince/nebula-ansible.git
 ```
 
 ### Make all the machines in the cluster trust with the Control Machine
@@ -98,8 +98,8 @@ $ git clone https://github.com/jievince/nebula-ansible.git
 Login as nebula  on Control Machine, add the ip of the machines to be deployed to the `[servers]` group of hosts file.
 
 ```shell
-$ cd /home/nebula/nebula-ansible
-$ vi hosts
+nebula@localhost:~$ cd /home/nebula/nebula-ansible
+nebula@localhost:~$ vi hosts
 ```
 ```shell
 [servers]
@@ -114,19 +114,19 @@ Execute the following command and enter the root password of the deployment targ
 This step will create a nebula user on the deployment target machine and configure the sudo rule to configure ssh mutual trust between the Control Machine and the target machines.
 
 ```shell
-$ ansible-playbook -i hosts create_users.yml -u root -k
+nebula@localhost:~$ ansible-playbook -i hosts create_users.yml -u root -k
 ```
 
 Execute the following command and if all servers return `nebula`, the ssh mutual trust configuration is successful
 
 ```shell
-$ ansible -i inventory.ini all -m shell -a 'whoami'
+nebula@localhost:~$ ansible -i inventory.ini all -m shell -a 'whoami'
 ```
 
 Execute the following command and if all servers return `root` it indicates nebula user sudo password-free configuration is successful
 
 ```shell
-$ ansible -i inventory.ini all -m shell -a 'whoami' -b
+nebula@localhost:~$ ansible -i inventory.ini all -m shell -a 'whoami' -b
 ```
 
 ### Allocate machine resources
@@ -134,7 +134,7 @@ $ ansible -i inventory.ini all -m shell -a 'whoami' -b
 Edit the inventory.ini file, 
 
 ```shell
-$ vi inventory.ini
+nebula@localhost:~$ vi inventory.ini
 ```
 
 Put the ip to the corresponding `[metad_servers]`, `[graphd_servers]` and `[storaged_servers`] groups
@@ -172,26 +172,26 @@ pkg = rpm
 Execute local_prepare.yml playbook, it will download nebula package to the Control Machine
 
 ```shell
-$ ansible-playbook local_prepare.yml
+nebula@localhost:~$ ansible-playbook local_prepare.yml
 ```
 
 Deploy nebula services on machines of cluster
 
 ```shell
-$ ansible-playbook deploy.yml
+nebula@localhost:~$ ansible-playbook deploy.yml
 ```
 
 ### Start nebula services
 
 ```shell
-$ ansible-playbook start.yml
+nebula@localhost:~$ ansible-playbook start.yml
 ```
 This will start metad, graphd, and storaged services on the cluster.
 
 You can also add `-t metad/graphd/storaged` to start only specific service.
 
 ```shell
-$ ansible-playbook start.yml -t graphd
+nebula@localhost:~$ ansible-playbook start.yml -t graphd
 ```
 This command will start only the graphd services on the cluster.
 
