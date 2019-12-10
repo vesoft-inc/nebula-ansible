@@ -1,5 +1,7 @@
 # nebula-ansible
 
+**Attention**: Now nebula-ansible is only usable for CentOS 7.5
+
 ## Introduction
 
 nebula-ansible is a `Nebula` cluster deployment tool based on [ansible playbook](https://docs.ansible.com/ansible/latest/cli/ansible-playbook.html).
