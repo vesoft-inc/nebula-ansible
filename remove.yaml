@@ -1,0 +1,9 @@
+---
+- hosts: all
+  vars_prompt:
+    - name: confirmed
+      prompt: "Are you sure you want to remove the Nebula-Graph? Will delete all data files (yes/no)"
+  roles:
+    - remove
+    
+  

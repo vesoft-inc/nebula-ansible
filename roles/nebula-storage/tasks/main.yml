@@ -1,0 +1,16 @@
+# configure /usr/local/nebula/etc/nebula-storaged.conf for storaged services
+- name: set local_ip argument
+  lineinfile:
+    path: '{{ deploy_dir }}/etc/nebula-storaged.conf'
+    state: present
+    regexp: '^--local_ip='
+    insertafter: '^--meta_server_addrs='
+    line: '--local_ip={{ hostvars[inventory_hostname].ansible_default_ipv4.address }}'
+
+- name: set meta_server_addrs argument
+  lineinfile:
+    path: '{{ deploy_dir }}/etc/nebula-storaged.conf'
+    state: present
+    regexp: '^--meta_server_addrs='
+    insertbefore: '^# Local ip'
+    line: '--meta_server_addrs={{ groups['meta']|map('map_format', '%s:9559')|join(',') }}'

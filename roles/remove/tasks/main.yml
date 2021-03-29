@@ -1,0 +1,20 @@
+---
+- name: Information
+  debug:
+    msg: "Must input 'yes', abort the playbook "
+  when:
+    - confirmed != 'yes'
+
+- meta: end_play
+  when:
+    - confirmed != 'yes'
+
+- name: Stop Nebula
+  command: "{{ deploy_dir }}/scripts/nebula.service stop all"
+  ignore_errors: true
+  register: result
+
+- name: Remove folder
+  file:
+    path: "{{ deploy_dir }}"
+    state: absent

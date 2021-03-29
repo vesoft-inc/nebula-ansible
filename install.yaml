@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  roles:
+    - local
+
+- hosts: all
+  roles:
+    - prepare
+
+- hosts: meta
+  roles:
+    - nebula-meta
+
+- hosts: storage
+  roles:
+    - nebula-storage
+
+- hosts: graph
+  roles:
+    - nebula-graph
