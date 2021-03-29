@@ -1,9 +1,0 @@
----
-# do local preparation
-
-- name: do local preparation on Control Machine
-  hosts: localhost
-  connection: local
-  gather_facts: false
-  roles:
-    - local
