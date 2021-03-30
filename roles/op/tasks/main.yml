@@ -1,29 +1,11 @@
 ---
-- name: Start all
-  shell:  "{{ deploy_dir }}/scripts/nebula.service start all"
-  tags:
-    - start-all
-  register: ressult
-
-- name: Stop all
-  shell: "{{ deploy_dir }}/scripts/nebula.service stop all"
-  tags:
-    - stop-all
-  register: ressult
-  
-
-- name: Status all
-  shell: "{{ deploy_dir }}/scripts/nebula.service status all"
-  tags:
-    - status-all
-  register: ressult
-
+- name: opration
+  shell: "{{ deploy_dir }}/scripts/nebula.service {{ op }} {{ module }}"
+  register: result
 
 - name: echo ressult
   debug:
-    msg: "{{ ressult.stdout }}"
-  tags:
-    - always
+    msg: "{{ result.stdout }}"
 
 
 

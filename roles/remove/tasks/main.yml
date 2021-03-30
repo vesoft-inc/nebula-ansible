@@ -10,7 +10,7 @@
     - confirmed != 'yes'
 
 - name: Stop Nebula
-  command: "{{ deploy_dir }}/scripts/nebula.service stop all"
+  shell: "{{ deploy_dir }}/scripts/nebula.service stop all"
   ignore_errors: true
   register: result
 
