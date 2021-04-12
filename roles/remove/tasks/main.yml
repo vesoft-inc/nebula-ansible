@@ -16,5 +16,21 @@
 
 - name: Remove folder
   file:
+    path: "{{ deploy_dir }}/{{ item }}"
+    state: absent
+  with_items:
+    - bin
+    - scripts
+    - etc
+    - share
+    - cluster.id
+
+  when: 
+    - delete_type == 'binary'
+
+- name: Remove folder
+  file:
     path: "{{ deploy_dir }}"
     state: absent
+  when: 
+    - delete_type == 'data'

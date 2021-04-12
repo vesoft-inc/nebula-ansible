@@ -7,3 +7,4 @@ retry_files/
 *.pyc
 
 *.idea
+packages

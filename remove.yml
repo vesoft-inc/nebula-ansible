@@ -2,7 +2,19 @@
 - hosts: all
   vars_prompt:
     - name: confirmed
+      prompt: "Are you sure you want to remove the Nebula-Graph? Will delete binary only  (yes/no)"
+  vars:
+    delete_type: binary
+  roles:
+    - remove
+  
+    
+- hosts: all
+  vars_prompt:
+    - name: confirmed
       prompt: "Are you sure you want to remove the Nebula-Graph? Will delete all data files (yes/no)"
+  vars:
+    delete_type: data
   roles:
     - remove
     

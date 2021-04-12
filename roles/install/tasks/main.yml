@@ -19,19 +19,20 @@
     src: "{{ packages_dir }}/{{ nebula_packages.name }}"
     dest: "{{ deploy_dir }}"
   when:
-    - not stat_rpm.stat.exists
+    -  not stat_rpm.stat.exists
+
 
 - name: unzip rpm file
   shell: "{{ item }}"
   with_items:
-    - "cd {{ deploy_dir }} && rpm2cpio nebula-graph-2.0.0.el7.x86_64.rpm |cpio -div"
-    - "mv {{ deploy_dir }}/usr/local/nebula/bin {{ deploy_dir }}"
-    - "mv {{ deploy_dir }}/usr/local/nebula/etc {{ deploy_dir }}"
-    - "mv {{ deploy_dir }}/usr/local/nebula/share {{ deploy_dir }}"
-    - "mv {{ deploy_dir }}/usr/local/nebula/scripts {{ deploy_dir }}"
+    - "cd {{ deploy_dir }} && rpm2cpio {{ nebula_packages.name }} |cpio -div"
+    - "mv {{ deploy_dir }}/usr/local/nebula/bin {{ deploy_dir }}/"
+    - "mv {{ deploy_dir }}/usr/local/nebula/etc {{ deploy_dir }}/"
+    - "mv {{ deploy_dir }}/usr/local/nebula/share {{ deploy_dir }}/"
+    - "mv {{ deploy_dir }}/usr/local/nebula/scripts {{ deploy_dir }}/"
 
   when:
-    - not stat_package.stat.exists
+    -  not stat_package.stat.exists 
 
 - name: config {{ module }}.conf
   template:
