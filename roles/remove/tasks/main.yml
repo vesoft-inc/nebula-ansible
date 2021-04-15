@@ -9,11 +9,6 @@
   when:
     - confirmed != 'yes'
 
-- name: Stop Nebula
-  shell: "{{ deploy_dir }}/scripts/nebula.service stop all"
-  ignore_errors: true
-  register: result
-
 - name: Remove folder
   file:
     path: "{{ deploy_dir }}/{{ item }}"

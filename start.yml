@@ -1,29 +1,23 @@
 ---
 # start nebula services
 
-- hosts: metad_servers
-  tags:
-    - metad
-  tasks:
-    - name: start metad by supervise
-      become: true
-      ignore_errors: no
-      shell: cd {{ deploy_dir }}/scripts && ./nebula.service start metad
+- hosts: metad
+  roles:
+    - op
+  vars:
+    - module: metad
+    - op: start
 
-- hosts: graphd_servers
-  tags:
-    - graphd
-  tasks:
-    - name: start graphd by supervise
-      become: true
-      ignore_errors: no
-      shell: cd {{ deploy_dir }}/scripts && ./nebula.service start graphd
+- hosts: storaged
+  roles:
+    - op
+  vars:
+    - module: storaged
+    - op: start
 
-- hosts: storaged_servers
-  tags:
-    - storaged
-  tasks:
-    - name: start storaged by supervise
-      become: true
-      ignore_errors: no
-      shell: cd {{ deploy_dir }}/scripts && ./nebula.service start storaged
+- hosts: graphd
+  roles:
+    - op
+  vars:
+    - module: graphd
+    - op: start

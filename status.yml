@@ -1,22 +1,23 @@
 ---
 # stop nebula services
-- hosts: graphd
-  roles:
-    - op
-  vars:
-    - module: graphd
-    - op: stop
-
-- hosts: storaged
-  roles:
-    - op
-  vars:
-    - module: storaged
-    - op: stop
 
 - hosts: metad
   roles:
     - op
   vars:
     - module: metad
-    - op: stop
+    - op: status
+
+- hosts: storaged
+  roles:
+    - op
+  vars:
+    - module: storaged
+    - op: status
+
+- hosts: graphd
+  roles:
+    - op
+  vars:
+    - module: graphd
+    - op: status

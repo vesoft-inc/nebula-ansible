@@ -23,7 +23,7 @@
 
 ########## networking ##########
 # Comma separated Meta Server addresses
---meta_server_addrs={{ groups['meta']|map('map_format', '%s:9559')|join(',') }}
+--meta_server_addrs={{ groups['metad']|map('map_format', '%s:9559')|join(',') }}
 # Local IP used to identify the nebula-metad process.
 # Change it to an address other than loopback if the service is distributed or
 # will be accessed remotely.
@@ -48,3 +48,6 @@
 --default_replica_factor=1
 
 --heartbeat_interval_secs=10
+
+############## rocksdb Options ##############
+--rocksdb_wal_sync=true

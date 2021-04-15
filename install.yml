@@ -9,14 +9,14 @@
   roles:
     - prepare
 
-- hosts: meta
+- hosts: metad
   roles:
-    - nebula-meta
+    - nebula-metad
 
-- hosts: storage
+- hosts: storaged
   roles:
-    - nebula-storage
+    - nebula-storaged
 
-- hosts: graph
+- hosts: graphd
   roles:
-    - nebula-graph
+    - nebula-graphd

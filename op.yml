@@ -1,8 +1,0 @@
----
-# stop nebula services
-
-- hosts: all
-  roles:
-    - op
-
-

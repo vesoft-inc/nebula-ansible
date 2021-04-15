@@ -10,7 +10,7 @@ def map_format(value, pattern):
         {{ "%s - %s"|format("Hello?", "Foo!") }}
             -> Hello? - Foo!
     e.g.  
-    "{{ groups['meta']|map('map_format', '%s:9559')|join(',') }}"
+    "{{ groups['metad']|map('map_format', '%s:9559')|join(',') }}"
     """
     return soft_unicode(pattern) % (value)
 

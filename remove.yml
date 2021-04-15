@@ -1,4 +1,7 @@
 ---
+- name: stop nebula-graph first
+  import_playbook: stop.yml
+
 - hosts: all
   vars_prompt:
     - name: confirmed
