@@ -6,6 +6,8 @@
   vars:
     - module: graphd
     - op: stop
+  ignore_errors: true
+
 
 - hosts: storaged
   roles:
@@ -13,6 +15,7 @@
   vars:
     - module: storaged
     - op: stop
+  ignore_errors: true
 
 - hosts: metad
   roles:
@@ -20,3 +23,4 @@
   vars:
     - module: metad
     - op: stop
+  ignore_errors: true
