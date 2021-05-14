@@ -1,5 +1,7 @@
 # nebula-ansible
 
+English | [中文](README_zh.md)
+
 **Attention**: Now nebula-ansible is only usable for CentOS 7
 
 ## Introduction
