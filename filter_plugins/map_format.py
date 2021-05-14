@@ -5,10 +5,6 @@ from jinja2.utils import soft_unicode
 
 def map_format(value, pattern):
     """
-    Apply python string formatting on an object:
-    .. sourcecode:: jinja
-        {{ "%s - %s"|format("Hello?", "Foo!") }}
-            -> Hello? - Foo!
     e.g.  
     "{{ groups['metad']|map('map_format', '%s:9559')|join(',') }}"
     """
