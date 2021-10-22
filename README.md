@@ -81,3 +81,11 @@ ansible-playbook status.yml
 ansible-playbook remove.yml
 
 ```
+
+### playing other inventory
+
+```bash
+ansible-playbook -i inventory.qa61 install.yml
+```
+
+
