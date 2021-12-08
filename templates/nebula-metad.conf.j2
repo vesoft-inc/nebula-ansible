@@ -23,21 +23,21 @@
 
 ########## networking ##########
 # Comma separated Meta Server addresses
---meta_server_addrs={{ groups['metad']|map('map_format', '%s:9559')|join(',') }}
+--meta_server_addrs={{ meta_server_addrs|join(',') }}
 # Local IP used to identify the nebula-metad process.
 # Change it to an address other than loopback if the service is distributed or
 # will be accessed remotely.
 --local_ip={{ hostvars[inventory_hostname].ansible_default_ipv4.address }}
 # Meta daemon listening port
---port=9559
+--port={{ hostvars[inventory_hostname].metad_port }}
 # HTTP service ip
 --ws_ip=0.0.0.0
 # HTTP service port
---ws_http_port=19559
+--ws_http_port=1{{ hostvars[inventory_hostname].metad_port }}
 # HTTP2 service port
---ws_h2_port=19560
+--ws_h2_port=2{{ hostvars[inventory_hostname].metad_port }}
 # The Storage HTTP service port
---ws_storage_http_port=19779
+--ws_storage_http_port=1{{ hostvars[inventory_hostname].storaged_port }}
 ########## storage ##########
 # Root data path, here should be only single path for metad
 --data_path=data/meta

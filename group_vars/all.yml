@@ -1,24 +1,30 @@
 nebula_packages:
-    name: 
-        "{%- if install_source_type == 'GA' -%} 
+    name: "{%- if install_source_type == 'GA' -%}
         nebula-graph-{{ nebula_version }}.{{ os_version }}.{{ arc }}.{{ pkg }}
-        {%- else -%} 
+        {%- else -%}
         nebula-graph-{{ now()|yesterday_format }}-nightly.{{ os_version }}.{{ arc }}.{{ pkg }}
         {%- endif -%}"
-        
-    version: 
-        "{%- if install_source_type.lower() == 'ga' -%} 
+
+    version: "{%- if install_source_type.lower() == 'ga' -%}
         {{ nebula_version }}
-        {%- else -%} 
+        {%- else -%}
         {{ nebula_version }}-{{ now()|yesterday_format }}-nightly
         {%- endif -%}"
 
-    url: 
-        "{%- if install_source_type.lower() == 'ga' -%} 
-        https://oss-cdn.nebula-graph.io/package/{{ nebula_version }}/nebula-graph-{{ nebula_version }}.{{ os_version }}.{{ arc }}.{{ pkg }}
-        {%- else -%} 
-        https://oss-cdn.nebula-graph.io/package/nightly/{{ now()|yesterday_format }}/nebula-graph-{{ now()|yesterday_format }}-nightly.{{ os_version }}.{{ arc }}.{{ pkg }}
+    url: "{%- if install_source_type.lower() == 'ga' -%}
+        https://oss-cdn.nebula-graph.com.cn/package/{{ nebula_version }}/nebula-graph-{{ nebula_version }}.{{ os_version }}.{{ arc }}.{{ pkg }}
+        {%- else -%}
+        https://oss-cdn.nebula-graph.com.cn/package/nightly/{{ now()|yesterday_format }}/nebula-graph-{{ now()|yesterday_format }}-nightly.{{ os_version }}.{{ arc }}.{{ pkg }}
         {%- endif -%}"
-    
 
-
+metad_port: 9559
+graphd_port: 9669
+storaged_port: 9779
+meta_server_addrs: [
+        "{%- for metad in groups['metad'] -%}
+        {%- if loop.index != 1 -%}
+        ,
+        {%- endif -%}
+        {{ hostvars[metad].ansible_default_ipv4.address }}:{{  hostvars[metad].metad_port }}
+        {%- endfor -%}",
+    ]
