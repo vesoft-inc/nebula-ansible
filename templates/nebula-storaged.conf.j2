@@ -51,7 +51,7 @@
 ########## Disk ##########
 # Root data path. Split by comma. e.g. --data_path=/disk1/path1/,/disk2/path2/
 # One path per Rocksdb instance.
---data_path=data/storage
+--data_path={{ data_dir }}
 
 # The default reserved bytes for one batch operation
 --rocksdb_batch_size=4096
