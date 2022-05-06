@@ -4,22 +4,22 @@
     state: directory
     mode: 0775
 
-- name: verify if the package is exist
+- name: verify if the binary is exist
   stat:
     path: "{{ deploy_dir }}/bin"
-  register: stat_package
+  register: stat_binary
 
-- name: verify if the rpm is exist
+- name: verify if the install package is exist
   stat:
     path: "{{ deploy_dir }}/{{ nebula_packages.name }}"
-  register: stat_rpm
+  register: stat_package
 
 - name: copy nebula package from Control Machine to all machines in the cluster
   copy:
     src: "{{ packages_dir }}/{{ nebula_packages.name }}"
     dest: "{{ deploy_dir }}"
   when:
-    -  not stat_rpm.stat.exists
+    -  not stat_package.stat.exists
 
 
 - name: unzip rpm file
@@ -32,8 +32,22 @@
     - "mv {{ deploy_dir }}/usr/local/nebula/scripts {{ deploy_dir }}/"
 
   when:
-    -  not stat_package.stat.exists 
+    -  not stat_binary.stat.exists 
+    -  pkg == 'rpm'
 
+- name: unzip tgz file
+  shell: "{{ item }}"
+  with_items:
+    - "cd {{ deploy_dir }} && tar zxvf {{ nebula_packages.name }}"
+    - "mv {{ deploy_dir }}/nebula-graph-{{ nebula_version }}.{{ os_version }}.{{ arc }}/bin {{ deploy_dir }}/"
+    - "mv {{ deploy_dir }}/nebula-graph-{{ nebula_version }}.{{ os_version }}.{{ arc }}/etc {{ deploy_dir }}/"
+    - "mv {{ deploy_dir }}/nebula-graph-{{ nebula_version }}.{{ os_version }}.{{ arc }}/share {{ deploy_dir }}/"
+    - "mv {{ deploy_dir }}/nebula-graph-{{ nebula_version }}.{{ os_version }}.{{ arc }}/scripts {{ deploy_dir }}/"
+
+  when:
+    -  not stat_binary.stat.exists 
+    -  pkg == 'tar.gz'
+    
 - name: config {{ module }}.conf
   template:
     src: "{{ playbook_dir}}/templates/{{ module }}.conf.j2"

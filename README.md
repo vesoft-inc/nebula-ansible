@@ -87,5 +87,3 @@ ansible-playbook remove.yml
 ```bash
 ansible-playbook -i inventory.qa61 install.yml
 ```
-
-
